@@ -1,17 +1,46 @@
 $(document).ready(function(){
 
     //variables
-    let rockBtn;
+    
     let playerTotal;
     let opsNumber;
     let wins;
     let losses;
-    let rockValue = [];//will hold value to be placed in each rock button
-    let isRockOn;//will hold win-loss values, NOT reset
+    let rockValue;//will hold value to be placed in each rock button
+    let isRockOn;//binary to hold win-loss values, NOT reset
     //let rocksMore;//if player score is greater than opponent
-    let rocks = ["coral", "sedimentary", "metamorphic", "igneous"];
-    
-
+    //let rocks = ["coral", "sedimentary", "metamorphic", "igneous"];
+    if (isRockOn) {
+      aler
+    }
+     let rockBtn = {
+      coral:
+      {
+        name: "coral",
+        img: "src=assets/images/coral.png",
+        rockValue: randomNumber(1,13)
+      },
+      metamorphic:
+      {
+        name: "metamorphic",
+        img: "src=assets/images/metamorphic.png",
+        rockValue: randomNumber(1,13)
+      },
+      sedimentary:
+      {
+        name: "sedimentary",
+        img: "src=assets/images/sedimentary.png",
+        rockValue: randomNumber(1,13)
+      },
+      igneous:
+      {
+        name: "igneous",
+        img: "src=assets/images/igneous.png",
+        rockValue: randomNumber(1,13)
+      }
+     };
+     console.log(rockBtn.coral.name);
+     console.log(rockBtn.coral.rockValue);
 //if player goes over opsNumber, game ends
 //on click of rock, add that number to playerTotal
 
@@ -22,78 +51,81 @@ $(document).ready(function(){
         alert("Game start!")
         wins = "";
         losses = "";
-        playerTotal = "";
+        playerTotal = 0;
         opsNumber = "";
-        rockValue = [];
+        //rockValue = [];
         isRockOn = false;
-        rocksMore = false;
+        //rocksMore = false;
         randomOps();
         //randomRocks();
     }; 
+    //function to restart game, keep win/loss
+    function replayRocks(){
+      $("#rocks").empty();
+      alert("Game start!")
+      playerTotal = 0;
+      opsNumber = "";
+      randomOps();
+    }
 //function to randomize values
 function randomNumber(min, max) {
    return Math.floor(Math.random() * (max - min) + min);
 
   };
-  //set opponents number
+  //set opponent number
     function randomOps(){
         let random = randomNumber(19, 121);
         opsNumber = random + opsNumber;
-
       $("#op-score").html("<h1>" + opsNumber + "</h1>");
     };
-
-    //redo function randomRocks()
-    function randomRock(){
-        let randomRock = randomNumber(1, 13);
+   
+  //function to check if game is over
+  function endGame(){
+    if (playerTotal > opsNumber){
+      alert("You lost");
+      losses
+      restartRocks();
     }
+    else if (playerTotal == opsNumber){
 
-  //randomly generate number for each rock between 1-12
-  //function randomRocks(){
-        
-    for (let i = 0; i < rocks.length; i++) {
-       
-       rockBtn = $("<img>");
-       rockValue[i] = randomNumber(1, 13);
-       rockBtn.attr('src', "assets/images/" + rocks[i] + ".png");//displays rock image
-       rockBtn.attr('rock-name', rocks[i]);
-       rockBtn.addClass(" col-sm-3 btn rocks" )
-       rockBtn.attr('value', rockValue[i] )
-       $(".rock-row").append(rockBtn);//when indexed, only shows 1st
-       //.attr("rock-type", rocks[i]);
-       //give each rockBtn an attr 'value' equal to rockValue
-       
-       
-       console.log("The value of the " + rocks[i] + " is " + rockValue[i] + "!")
-       //append each "rockBtn" to the ".rock-row" div (provided).
-      
-       //$(".rock-btn").on("click", function(){
-          // console.log("The value of the " + rocks[i] + " is " + rockValue[i] + "!")//when click event inside loop, click is recognized
-       //})
     }
- //}
-   //.rock is NOT registering clicks on image.  
-  //should turn on once rock button is pressed
-  //from there will add the Rock Value assigned to each rock
-
+  }
+    
+ 
 //rock button functionality
-$(".rocks").on("click", function(){
+$("#coral").on("click", function(){
     //add rock value to player score
-    //playerTotal = playerTotal + this.value;//define this.value??
-    //console.log("player has " + playerTotal + " points")
-    //isRockOn = true;
-    console.log("The value of " + rockBtn.attr('rock-name') + ' is ' +  rockBtn.attr('value') + "!")
-    //addCrystal();//function to addto players total
-    //alert("You're total is " + playerTotal + "!")
+    playerTotal = playerTotal + rockBtn.coral.rockValue;
+    console.log(rockBtn.coral.rockValue + " is value of coral")
+  });
+$("#metamorphic").on("click", function(){
+      playerTotal = playerTotal + rockBtn.metamorphic.rockValue;
+      console.log("meta button pressed");
+      console.log("playerTotal = " + playerTotal);
+      console.log(rockBtn.metamorphic.rockValue + " is value of meta")
+  });
+$("#igneous").on("click", function(){
+        playerTotal = playerTotal + rockBtn.igneous.rockValue;
+        console.log("igneous button pressed");
+        console.log("playerTotal = " + playerTotal);
+        console.log(rockBtn.igneous.rockValue + " is value of igneous")
+  });
+$("#sedimentary").on("click", function(){
+          playerTotal = playerTotal + rockBtn.sedimentary.rockValue;
+          console.log("sed button pressed");
+          console.log("playerTotal = " + playerTotal);
+          console.log(rockBtn.sedimentary.rockValue + " is value of sed")
+  });
+    
+  
 
-})
 
 
 
 $(".reset").on("click", function () {
-        restartRocks();
+        replayRocks();
     });
 
 restartRocks();//start game
 
-})// end document
+});// end document
