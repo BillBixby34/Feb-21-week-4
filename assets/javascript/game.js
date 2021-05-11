@@ -4,8 +4,8 @@ $(document).ready(function(){
     
     let playerTotal;
     let opsNumber;
-    let wins;
-    let losses;
+    let winCounter;
+    let lossCounter;
     let rockValue;//will hold value to be placed in each rock button
     let isRockOn;//binary to hold win-loss values, NOT reset
     //let rocksMore;//if player score is greater than opponent
@@ -39,8 +39,6 @@ $(document).ready(function(){
         rockValue: randomNumber(1,13)
       }
      };
-     console.log(rockBtn.coral.name);
-     console.log(rockBtn.coral.rockValue);
 //if player goes over opsNumber, game ends
 //on click of rock, add that number to playerTotal
 
@@ -49,22 +47,25 @@ $(document).ready(function(){
         //clear .rock-row div
         $("#rocks").empty();
         alert("Game start!")
-        wins = "";
-        losses = "";
+        winCounter = "";
+        lossCounter = "";
         playerTotal = 0;
-        opsNumber = "";
-        //rockValue = [];
-        isRockOn = false;
-        //rocksMore = false;
+        opsNumber = 0;
         randomOps();
-        //randomRocks();
+        //set rockValue with randomNumber function
+        rockBtn.coral.rockValue = randomNumber(1,13)
+        rockBtn.sedimentary.rockValue = randomNumber(1,13)
+        rockBtn.metamorphic.rockValue = randomNumber(1,13)
+        rockBtn.igneous.rockValue = randomNumber(1,13)
+        isRockOn = false;
     }; 
     //function to restart game, keep win/loss
     function replayRocks(){
       $("#rocks").empty();
       alert("Game start!")
       playerTotal = 0;
-      opsNumber = "";
+      $("#player-score").html(playerTotal);
+      opsNumber = 0;
       randomOps();
     }
 //function to randomize values
@@ -83,41 +84,43 @@ function randomNumber(min, max) {
   function endGame(){
     if (playerTotal > opsNumber){
       alert("You lost");
-      losses
-      restartRocks();
+      lossCounter++
+      $("#losses").html("<h2>" + lossCounter + "</h2>");
+      replayRocks();
     }
-    else if (playerTotal == opsNumber){
-
+    else if (playerTotal === opsNumber){
+      alert("You won!");
+      winCounter++
+      $("#wins").html("<h2>" + winCounter + "</h2>");
+      replayRocks();
     }
   }
     
  
 //rock button functionality
 $("#coral").on("click", function(){
-    //add rock value to player score
     playerTotal = playerTotal + rockBtn.coral.rockValue;
-    console.log(rockBtn.coral.rockValue + " is value of coral")
+    $("#player-score").html(playerTotal);
+    endGame();
   });
 $("#metamorphic").on("click", function(){
       playerTotal = playerTotal + rockBtn.metamorphic.rockValue;
-      console.log("meta button pressed");
-      console.log("playerTotal = " + playerTotal);
-      console.log(rockBtn.metamorphic.rockValue + " is value of meta")
+      $("#player-score").html(playerTotal);
+      endGame();
   });
 $("#igneous").on("click", function(){
         playerTotal = playerTotal + rockBtn.igneous.rockValue;
-        console.log("igneous button pressed");
-        console.log("playerTotal = " + playerTotal);
-        console.log(rockBtn.igneous.rockValue + " is value of igneous")
+        $("#player-score").html(playerTotal);
+        endGame();
   });
 $("#sedimentary").on("click", function(){
           playerTotal = playerTotal + rockBtn.sedimentary.rockValue;
-          console.log("sed button pressed");
-          console.log("playerTotal = " + playerTotal);
-          console.log(rockBtn.sedimentary.rockValue + " is value of sed")
+          $("#player-score").html(playerTotal);
+          endGame();
   });
     
-  
+  //want clicked rocks to update user score on click
+  //could put endgame() on each rock button
 
 
 
